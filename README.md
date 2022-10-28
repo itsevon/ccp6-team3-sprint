@@ -2,11 +2,11 @@
 
 
 ## What it is
-This application is a simple and clean shared __shopping list__ where you can add a list of items, and mark then individaully once purchased. In this way everyone will be updated on the procurament's progress, making sure everything has been purchased, with no doubled items. 
+This application is a simple and clean shared __shopping list__ where you can add a list of items, and mark them individaully once purchased. In this way everyone will be updated on the procurement's progress, making sure everything has been purchased, with no doubled items. 
 
 
 ## How it works
-Launch the app, and add a list by enetring its name. Click on the list name to open it, and then add the item's name.
+Launch the app, and add a list by entering its name. Click on the list name to open it, and then add the item's name.
 The item's field is free to edit, so you can use this list in a wide range of situations.
 When one item has been purchased, mark it in the checkbox, so everyone will know it has been completed.
 
