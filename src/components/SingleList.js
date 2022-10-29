@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Button } from "react-bootstrap";
 
 export default function SingleList(props) {
 	const { selectedList } = props;
@@ -21,17 +22,13 @@ export default function SingleList(props) {
 
 	return (
 		<div className="singleList">
-			<p>Hello this is from Single List compo</p>
 			<p>This is the ""{selectedList.listName}"" list</p>
 			<p>This is the ID of this list ""{selectedList.id}""</p>
 			<form
 				onSubmit={async (e) => {
 					e.preventDefault();
 					const item = { itemName, quantity };
-					let data = await axios.post(
-						`/api/lists/${selectedList.id}/addItem`,
-						item
-					);
+					await axios.post(`/api/lists/${selectedList.id}/addItem`, item);
 					setItemName("");
 					setQuantity(0);
 				}}
@@ -55,7 +52,9 @@ export default function SingleList(props) {
 						setQuantity(e.target.value);
 					}}
 				></input>
-				<button type="submit">Add Item</button>
+				<button type="submit" variant="outline-dark">
+					Add Item
+				</button>
 			</form>
 			<table>
 				<tr>
@@ -67,13 +66,22 @@ export default function SingleList(props) {
 					<tr>
 						<td>{item.itemName}</td>
 						<td>{item.quantity}</td>
+						{/* {console.log(item)} */}
 						<td>
 							<input
 								type="checkbox"
 								checked={item.purchased === true ? "checked" : ""}
-							// onClick={(e) => {
-							// 	console.log(e.target.checked);
-							// }}
+								onClick={async (e) => {
+									const value = e.target.checked;
+									const itemName = item.itemName;
+									await axios.post(
+										`/api/list/${selectedList.id}/updatePurchase`,
+										{
+											purchased: value,
+											itemName: itemName,
+										}
+									);
+								}}
 							></input>
 // 							<input
 // 								type="button"
@@ -86,12 +94,18 @@ export default function SingleList(props) {
 					</tr>
 				))}
 			</table>
-			{/* <input
+			<input
 				type="checkbox"
-				onClick={(e) => {
-					console.log(e.target.checked);
+				onClick={async (e) => {
+					if (e.target.checked) {
+						console.log("This is chekd");
+					}
+					const value = e.target.checked;
+					console.log("THIS IS THE VALUE ", value);
+
+					await axios.post("/api/list/:listId/updatePurchase");
 				}}
-			></input> */}
+			></input>
 		</div>
 	);
 }

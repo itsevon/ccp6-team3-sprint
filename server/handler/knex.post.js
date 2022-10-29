@@ -20,20 +20,23 @@ module.exports = {
 	},
 
 	//insert items data to DB
-    addItemsToList(data, id) {
-        return knex('items_in_list')
-            .insert({
-                list_id: id,
-                item_name: data.itemName,
-                quantity: data.quantity,
-                purchased: false,
-            })
-    },
+	addItemsToList(data, id) {
+		return knex("items_in_list").insert({
+			list_id: id,
+			item_name: data.itemName,
+			quantity: data.quantity,
+			purchased: false,
+		});
+	},
 
 	addUserTolist(data) {
 		return knex("users_in_list").insert({
 			list_id: data.listId,
 			user_id: data.userId,
 		});
+	},
+
+	updatePurchase(data, id) {
+		return knex.from("items_in_list").where({ id: id });
 	},
 };

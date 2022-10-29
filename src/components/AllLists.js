@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 import { Button } from "react-bootstrap";
+import ListGroup from "react-bootstrap/ListGroup";
 
 export default function Login(props) {
 	const [listName, setListName] = useState("");
@@ -33,14 +34,14 @@ export default function Login(props) {
 				</Button>
 			</form>
 			{lists.map((listData, index) => (
-				<div
-					onClick={() => {
-						setCurrentView("singleList");
-						setSelectedList(lists[index]);
-					}}
-				>
-					{listData.listName}
-				</div>
+					<div
+						onClick={() => {
+							setCurrentView("singleList");
+							setSelectedList(lists[index]);
+						}}
+					>
+						{listData.listName}
+					</div>
 			))}
 		</div>
 	);

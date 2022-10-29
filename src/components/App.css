@@ -32,21 +32,50 @@
 	box-shadow: 0 0.188em 1.55em #6d675b;
 }
 
-/* .List {
+.List {
 	margin: auto;
-	justify-content: center;
-	display: flex;
-	margin: 2px
-} */
+	margin-left: 40%;
+}
 
 
 
 .singleList {
-	/* display: flex; */
-	position: absolute;
 	justify-content: center;
 	margin-left: 500px;
 }
+
+/* Styling the table ↓*/
+
+td,
+th {
+	border: 1px solid rgb(190, 190, 190);
+	padding: 10px;
+}
+
+
+tr:nth-child(even) {
+	background-color: #eee;
+}
+
+th[scope="col"] {
+	background-color: #696969;
+	color: #fff;
+}
+
+th[scope="row"] {
+	background-color: #d7d9f2;
+}
+
+table {
+	border-collapse: collapse;
+	letter-spacing: 1px;
+	font-family: sans-serif;
+	font-size: .8rem;
+	width: 50%;
+}
+
+/* Styling the table ↑*/
+
 
 .Login {
 	background-color: #fff3d9;

@@ -23,11 +23,12 @@ const {
 } = require("./handler/knex.get");
 
 const {
-  addList,
-  addUser,
-  addItemsToList,
-  addUserTolist
-} = require("./handler/knex.post")
+	addList,
+	addUser,
+	addItemsToList,
+	addUserTolist,
+	updatePurchase,
+} = require("./handler/knex.post");
 
 const {
   deleteUser,
@@ -107,18 +108,24 @@ app.post("/api/lists/:listId/addItem", async (req, res) => {
   console.log(listId);
   await addItemsToList(req.body, listId);
   res.send(JSON.stringify(req.body));
-
 });
 
 app.post("/api/lists/:listId/:itemName/toggle", async (req, res) => {
   const listId = Number(req.params.listId);
   const itemName = req.params.itemName;
-  await changeState(req.body, listId, itemName)
 });
 
 //add user to list
 app.post("/api/list:listId/add-user", async (req, res) => {
   await addUserTolist(req.body);
+});
+
+app.post("/api/lists/:listId/:itemName/toggle", async (req, res) => {
+	console.log("This is from the back ned");
+	console.log(req.params.listId);
+	// await updatePurchase(req.body, req.params.listId);
+	console.log(req.body);
+	res.send(req.body);
 });
 
 //DELETE METHOD
