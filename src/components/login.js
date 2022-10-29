@@ -6,7 +6,9 @@ import "./App.css";
 const LOGIN_URL = "/auth";
 
 const Login = (props) => {
+	const { setLoginView, loginView } = props;
 	// const { setAuth } = useContext(AuthContext);
+
 	const userRef = useRef();
 	const errRef = useRef();
 
@@ -102,10 +104,14 @@ const Login = (props) => {
 					<p>
 						Need an Account?
 						<br />
-						<span className="line">
-							{/*put router link here*/}
-							<a href="#">Sign Up</a>
-						</span>
+						<button
+						className="login"
+						onClick={() => {
+							setLoginView("registration");
+						}}
+					>
+						Sign up
+					</button>
 					</p>
 				</div>
 			)}

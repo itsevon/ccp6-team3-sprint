@@ -1,29 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 import { Button } from "react-bootstrap";
 
 export default function Login(props) {
 	const [listName, setListName] = useState("");
-	const {
-		setLists,
-		lists,
-		setCurrentView,
-		setSelectedList,
-		selectedList,
-	} = props;
+	const { setLists, lists, setCurrentView, setSelectedList, selectedList } =
+		props;
 
 	return (
 		<div className="List">
 			<form
 				onSubmit={async (e) => {
 					e.preventDefault();
-					let data = await axios.post("/api/create-list", {
+					let data = await axios.post("/api/lists/add", {
 						listName,
-						items: [],
 					});
 					setListName("");
-					lists.push(data.data);
 				}}
 			>
 				<input
@@ -35,9 +28,9 @@ export default function Login(props) {
 						setListName(e.target.value);
 					}}
 				></input>
-				<button variant="primary" type="submit">
+				<Button variant="outline-dark" type="submit">
 					Add List
-				</button>
+				</Button>
 			</form>
 			{lists.map((listData, index) => (
 				<div

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function SingleList(props) {
@@ -7,18 +7,33 @@ export default function SingleList(props) {
 	const [itemName, setItemName] = useState("");
 	const [quantity, setQuantity] = useState(0);
 
+	const [itemsInList, setItemsInList] = useState([]);
+
+	const getItems = async () => {
+		const items = await axios.get(`api/items/${selectedList.id}`);
+		// console.log(itemsInList);
+		setItemsInList(items.data);
+	};
+
+	useEffect(() => {
+		getItems();
+	});
+
 	return (
-		<div>
+		<div className="singleList">
 			<p>Hello this is from Single List compo</p>
-			<p>This is the {selectedList.listName} list</p>
+			<p>This is the ""{selectedList.listName}"" list</p>
+			<p>This is the ID of this list ""{selectedList.id}""</p>
 			<form
 				onSubmit={async (e) => {
 					e.preventDefault();
 					const item = { itemName, quantity };
-					let data = await axios.post("/api/add-item", item);
+					let data = await axios.post(
+						`/api/lists/${selectedList.id}/addItem`,
+						item
+					);
 					setItemName("");
 					setQuantity(0);
-					selectedList.items.push(data.data);
 				}}
 			>
 				<input
@@ -42,24 +57,41 @@ export default function SingleList(props) {
 				></input>
 				<button type="submit">Add Item</button>
 			</form>
-			{/* {selectedList.items.length === 0 ? <p>You have no item yet</p>} */}
 			<table>
 				<tr>
 					<th>Item Name</th>
 					<th>Quantity</th>
 					<th>Done</th>
 				</tr>
-				{selectedList.items.map((itemData, index) => (
+				{itemsInList.map((item, index) => (
 					<tr>
-						<td>{itemData.itemName}</td>
-						<td>{itemData.quantity}</td>
+						<td>{item.itemName}</td>
+						<td>{item.quantity}</td>
 						<td>
-							<input type="checkbox"></input>
+							<input
+								type="checkbox"
+								checked={item.purchased === true ? "checked" : ""}
+							// onClick={(e) => {
+							// 	console.log(e.target.checked);
+							// }}
+							></input>
+// 							<input
+// 								type="button"
+// 								onClick={async (e) => {
+// 									await axios.delete(`/api/lists/${selectedList.id}/${item.itemName}/delete`, { listId: selectedList.id, itemName: item.itemName })
+// 								}}
+// 							></input>
+// 							<button>X</button>
 						</td>
-						{console.log(itemData)}
 					</tr>
 				))}
 			</table>
+			{/* <input
+				type="checkbox"
+				onClick={(e) => {
+					console.log(e.target.checked);
+				}}
+			></input> */}
 		</div>
 	);
 }

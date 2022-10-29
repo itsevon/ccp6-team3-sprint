@@ -2,7 +2,7 @@
   "name": "get-eat",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080",
+  "proxy": "https://ccp6-team3.onrender.com/",
   "dependencies": {
     "@fontsource/alfa-slab-one": "^4.5.9",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",

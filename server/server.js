@@ -6,11 +6,10 @@ const app = express();
 
 //ROUTE for DATABASE
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 
 app.use(express.static(path.join(__dirname, "..", "build")));
 app.use(express.static("public"));
-
 
 //ROUTE for FRONTEND
 app.use(express.json());
@@ -20,13 +19,13 @@ const {
   getAllItemsFromList,
   getUserData,
   getAllUsersInList,
-  getAllListsOnUser
+  getAllListsOnUser,
 } = require("./handler/knex.get");
 
 const {
   addList,
   addUser,
-  addItemToList,
+  addItemsToList,
   addUserTolist
 } = require("./handler/knex.post")
 
@@ -34,8 +33,8 @@ const {
   deleteUser,
   deleteList,
   deleteItem,
-  deleteUserFromList
-} = require("./handler/knex.delete")
+  deleteUserFromList,
+} = require("./handler/knex.delete");
 
 //GET METHOD
 
@@ -66,7 +65,6 @@ app.get("/api/lists", async (req, res) => {
 app.get("/api/items/:listId", async (req, res) => {
   const listId = Number(req.params.listId);
   await getAllItemsFromList(listId).then((data) => {
-    console.log(data);
     res.send(data);
   });
 });
@@ -93,54 +91,53 @@ app.get("/api/lists-on-user/:userId", async (req, res) => {
 
 app.post("/api/user", async (req, res) => {
   await addUser(req.body);
-
   res.send(JSON.stringify(req.body));
-})
+});
 
 //create list
 app.post("/api/lists/add", async (req, res) => {
-  // const userId = Number(req.params.userId);
-  // req.body.userId = userId;
+  console.log(req.body);
   await addList(req.body);
   res.send(JSON.stringify(req.body));
 });
 
-//add items to list 
+//add items to list
 app.post("/api/lists/:listId/addItem", async (req, res) => {
   const listId = Number(req.params.listId);
-  await addItemsTolist(req.body, listId)
-  // req.body.listId = listId;
-
-  console.log(req.body);
-  await addItemToList(req.body, id);
+  console.log(listId);
+  await addItemsToList(req.body, listId);
   res.send(JSON.stringify(req.body));
+
+});
+
+app.post("/api/lists/:listId/:itemName/toggle", async (req, res) => {
+  const listId = Number(req.params.listId);
+  const itemName = req.params.itemName;
+  await changeState(req.body, listId, itemName)
 });
 
 //add user to list
 app.post("/api/list:listId/add-user", async (req, res) => {
-  await addUserTolist(req.body)
-})
+  await addUserTolist(req.body);
+});
 
 //DELETE METHOD
 
-app.delete("/api/delete/user/:userId", async (req, res) => {
 
-  await deleteUser(userId)
-})
+// delete a list
+app.delete("/api/lists/:listId/delete", async (req, res) => {
+  const listId = Number(req.params.listId);
+  await deleteList(listId);
+  res.send(JSON.stringify(req.body));
+});
 
-app.delete("/api/delete/list/:listId", async (req, res) => {
-
-  await deleteList(listId)
-})
-
-app.delete("/api/delete/item", async (req, res) => {
-
-  await deleteUserFromList(req.body)
-})
-
-app.delete("/api/delete/user-list", async (req, res) => {
-  await deleteUserFromList(req.body)
-})
+//delete an item
+app.delete("/api/lists/:listId/:itemName/delete", async (req, res) => {
+  const listId = Number(req.params.listId);
+  const itemName = req.params.itemName;
+  await deleteItemInList(listId, itemName);
+  res.send(JSON.stringify(req.body));
+});
 
 // app.post("api/access", async (req, res) => {
 //   const dbCode = await checkCode(req.body)

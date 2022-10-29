@@ -8,7 +8,7 @@ module.exports = {
             .then(() => console.log('list deleted'))
     },
 
-    deleteItem(data) {
+    deleteItemInList(data) {
         return knex("items_in_list")
             .where("list_id", "=", data.listId)
             .where("item_name", "=", data.itemName)

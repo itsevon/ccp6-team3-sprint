@@ -10,7 +10,7 @@ import "./App.css";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,24}$/;
-const REGISTER_URL = 'api/register'
+const REGISTER_URL = "api/user";
 
 const Registration = (props) => {
 	const { setLoginView, loginView } = props;
@@ -39,8 +39,8 @@ const Registration = (props) => {
 
 	useEffect(() => {
 		const result = USER_REGEX.test(user);
-		console.log(result);
-		console.log(user);
+		// console.log(result);
+		// console.log(user);
 		setValidName(result);
 	});
 
@@ -56,7 +56,6 @@ const Registration = (props) => {
 	}, [user, pwd, matchPwd]);
 
 	const handleSubmit = async (e) => {
-
 		// if button is hacked
 		const v1 = USER_REGEX.test(user);
 		const v2 = PWD_REGEX.test(pwd);
@@ -65,14 +64,18 @@ const Registration = (props) => {
 			return;
 		}
 		// console.log(user, pwd);
-		// setSuccess(true);
+		setSuccess(true);
 		try {
-			const response = await axios.post(REGISTER_URL,
-				JSON.stringify({user, pwd}),
-				 {
-					headers: {'content-Type': "application"}
-				 })
+			const response = await axios.post(
+				REGISTER_URL,
+				JSON.stringify({ user, pwd }),
+				{
+					headers: { "content-Type": "application" },
+				}
+			);
 		} catch (err) {}
+		setSuccess(true);
+		setLoginView("login");
 	};
 
 	return (
@@ -97,17 +100,18 @@ const Registration = (props) => {
 					>
 						{errMsg}
 					</p>
-					<h1>Register</h1>
+					<h3>Register</h3>
 					<form>
 						<label htmlFor="username">
-							Username:
+							Username
 							<span className={validName ? "valid" : "hide"}>
 								<FontAwesomeIcon icon={faCheck} />
 							</span>
 							<span className={validName || !user ? "hide" : "invalid"}>
 								<FontAwesomeIcon icon={faTimes} />
 							</span>
-						</label><br />
+						</label>
+						<br />
 						<input
 							type="username"
 							id="username"
@@ -119,7 +123,8 @@ const Registration = (props) => {
 							aria-describedby="uidnte"
 							onFocus={() => setUserFocus(true)}
 							onBlur={() => setUserFocus(false)}
-						></input><br />
+						></input>
+						<br />
 						<p
 							id="idnote"
 							className={
@@ -132,9 +137,10 @@ const Registration = (props) => {
 							Must begin with a letter.
 							<br />
 							Letters, numbers, underscores, hyphens allowed.
-						</p><br />
+						</p>
+						<br />
 						<label htmlFor="password">
-							Password:
+							Password
 							<FontAwesomeIcon
 								icon={faCheck}
 								className={validPwd ? "valid" : "hide"}
@@ -143,7 +149,8 @@ const Registration = (props) => {
 								icon={faTimes}
 								className={validPwd || !pwd ? "hide" : "invalid"}
 							/>
-						</label><br />
+						</label>
+						<br />
 						<input
 							type="password"
 							id="password"
@@ -170,10 +177,12 @@ const Registration = (props) => {
 							<span aria-label="hashtag">#</span>{" "}
 							<span aria-label="dollar sign">$</span>{" "}
 							<span aria-label="percent">%</span>
-						</p><br /><br />
+						</p>
+						<br />
+						<br />
 
 						<label htmlFor="confirm_pwd">
-							Confirm Password:
+							Confirm Password
 							<FontAwesomeIcon
 								icon={faCheck}
 								className={validMatch && matchPwd ? "valid" : "hide"}
@@ -182,7 +191,8 @@ const Registration = (props) => {
 								icon={faTimes}
 								className={validMatch || !matchPwd ? "hide" : "invalid"}
 							/>
-						</label><br />
+						</label>
+						<br />
 						<input
 							type="password"
 							id="confirm_pwd"
@@ -193,7 +203,8 @@ const Registration = (props) => {
 							aria-describedby="confirmnote"
 							onFocus={() => setMatchFocus(true)}
 							onBlur={() => setMatchFocus(false)}
-						/><br />
+						/>
+						<br />
 						<p
 							id="confirmnote"
 							className={
@@ -202,7 +213,8 @@ const Registration = (props) => {
 						>
 							<FontAwesomeIcon icon={faCheckCircle} />
 							Must match the first password input field.
-						</p><br />
+						</p>
+						<br />
 
 						<button
 							disabled={!validName || !validPwd || !validMatch ? true : false}
@@ -211,13 +223,20 @@ const Registration = (props) => {
 							}}
 						>
 							Sign Up
-						</button><br /><br /><br />
+						</button>
+						<br />
+						<br />
+						<br />
 					</form>
 					Already registered?
-					
-					<button id="login" onClick={() => {
-								setLoginView("login")
-							}}>Log in here</button>
+					<button
+						ClassName="login"
+						onClick={() => {
+							setLoginView("login");
+						}}
+					>
+						Log in here
+					</button>
 				</div>
 			)}
 		</>
